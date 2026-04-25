@@ -297,11 +297,101 @@
     margin-top: 16px;
   }
   
-  /* 공유 버튼 */
-  .share { text-align: center; margin: 40px 0 20px 0; }
-  .share .btn { display: inline-block; margin: 0 6px; padding: 10px 22px; border-radius: 24px; background: #2d5016; color: #fff; font-size: 13px; font-weight: bold; text-decoration: none; cursor: pointer; border: none; }
-  .share .btn:hover { background: #3d6b1f; }
-  .share .btn.kakao { background: #fee500; color: #3c1e1e; }
+  /* 유튜브 쇼츠 섹션 */
+  .shorts-section {
+    margin: 50px 0 30px 0;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #faf7f0 0%, #f5f0e0 100%);
+    border-radius: 12px;
+  }
+  .shorts-title {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .shorts-title .shorts-label {
+    display: inline-block;
+    color: #c00;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+  .shorts-title h3 {
+    color: #2d5016;
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+  }
+  .shorts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .short-card {
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.25s ease;
+    display: block;
+  }
+  .short-card:hover {
+    transform: translateY(-4px);
+  }
+  .short-thumb {
+    position: relative;
+    aspect-ratio: 9/16;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #000;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  }
+  .short-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease, opacity 0.2s ease;
+  }
+  .short-card:hover .short-thumb img {
+    transform: scale(1.05);
+    opacity: 0.85;
+  }
+  .short-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: rgba(204, 0, 0, 0.92);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    padding-left: 4px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    transition: all 0.2s ease;
+  }
+  .short-card:hover .short-play {
+    background: #c00;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  .short-caption {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #2d5016;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+  }
+  
+  @media (max-width: 600px) {
+    .shorts-grid { gap: 12px; }
+    .shorts-title h3 { font-size: 19px; }
+    .short-play { width: 46px; height: 46px; font-size: 18px; }
+  }
   
   /* BGM 플레이어 */
   .bgm-player {
@@ -555,10 +645,28 @@
   <div class="sig">민프로 &nbsp;/&nbsp; 2026</div>
 </div>
 
-<!-- 공유 버튼 -->
-<div class="share">
-  <button class="btn" onclick="copyLink()">🔗 링크 복사</button>
-  <a class="btn" href="https://twitter.com/intent/tweet?url=https://manminkim-eng.github.io/26-manmin-golf/&text=민프로 골프 브이로그 · 7년의 기록" target="_blank" rel="noopener">𝕏 트위터</a>
+<!-- 유튜브 쇼츠 -->
+<div class="shorts-section">
+  <div class="shorts-title">
+    <span class="shorts-label">▶ YOUTUBE SHORTS</span>
+    <h3>민프로 쇼츠 영상</h3>
+  </div>
+  <div class="shorts-grid">
+    <a href="https://youtube.com/shorts/7IkUJorOnr4" target="_blank" rel="noopener" class="short-card">
+      <div class="short-thumb">
+        <img src="https://i.ytimg.com/vi/7IkUJorOnr4/hqdefault.jpg" alt="민프로 쇼츠 1" loading="lazy" />
+        <div class="short-play">▶</div>
+      </div>
+      <div class="short-caption">YouTube Shorts ①</div>
+    </a>
+    <a href="https://youtube.com/shorts/uIzyEP_HYXE" target="_blank" rel="noopener" class="short-card">
+      <div class="short-thumb">
+        <img src="https://i.ytimg.com/vi/uIzyEP_HYXE/hqdefault.jpg" alt="민프로 쇼츠 2" loading="lazy" />
+        <div class="short-play">▶</div>
+      </div>
+      <div class="short-caption">YouTube Shorts ②</div>
+    </a>
+  </div>
 </div>
 
 <div class="footer">
@@ -909,21 +1017,6 @@ bgm.play().then(() => {
   // 음소거 자동재생도 실패 - 오버레이로 사용자 선택 유도
   bgm.muted = false;
 });
-
-function copyLink() {
-  const url = window.location.href;
-  navigator.clipboard.writeText(url).then(() => {
-    alert('링크가 복사되었습니다!\n' + url);
-  }).catch(() => {
-    const el = document.createElement('textarea');
-    el.value = url;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-    alert('링크가 복사되었습니다!');
-  });
-}
 </script>
 
 </body>
