@@ -94,8 +94,131 @@
   .photos.g3 { grid-template-columns: repeat(3, 1fr); align-items: start; }
   .photos.g4 { grid-template-columns: repeat(2, 1fr); align-items: start; }
   .photos.g5plus { grid-template-columns: repeat(3, 1fr); align-items: start; }
-  .photos img { width: 100%; height: auto; object-fit: contain; border-radius: 6px; display: block; background: #f0ebe0; }
+  .photos img { width: 100%; height: auto; object-fit: contain; border-radius: 6px; display: block; background: #f0ebe0; cursor: zoom-in; transition: opacity 0.2s ease; }
+  .photos img:hover { opacity: 0.92; }
   .photos.g1 img { max-height: 800px; width: auto; max-width: 100%; margin: 0 auto; }
+  
+  /* 라이트박스 */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 10001;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    touch-action: none;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox-img-wrap {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .lightbox-img {
+    max-width: 95vw;
+    max-height: calc(95vh - 100px);
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+    cursor: zoom-in;
+    will-change: transform;
+  }
+  .lightbox-img.zoomed {
+    cursor: grab;
+    transition: none;
+  }
+  .lightbox-img.dragging {
+    cursor: grabbing;
+    transition: none;
+  }
+  .lightbox-info {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(45, 80, 22, 0.85);
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+    pointer-events: none;
+    max-width: 90vw;
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+  .lightbox-info .lb-counter {
+    color: #d4a017;
+    margin-right: 8px;
+    font-size: 11px;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    backdrop-filter: blur(8px);
+    z-index: 10003;
+  }
+  .lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, opacity 0.2s ease;
+    backdrop-filter: blur(8px);
+    z-index: 10002;
+  }
+  .lightbox-nav:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+  .lightbox-nav.prev { left: 16px; }
+  .lightbox-nav.next { right: 16px; }
+  .lightbox-nav:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+  }
+  
+  @media (max-width: 600px) {
+    .lightbox-nav { width: 42px; height: 42px; font-size: 20px; }
+    .lightbox-nav.prev { left: 8px; }
+    .lightbox-nav.next { right: 8px; }
+    .lightbox-close { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 18px; }
+    .lightbox-info { bottom: 12px; font-size: 12px; padding: 6px 14px; }
+  }
   
   /* 동영상 */
   .video-wrap { margin-top: 12px; background: #000; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
@@ -356,56 +479,56 @@
     <div class="sub">입문의 해 · 처음 잡아본 클럽</div>
   </div>
 </div>
-<div class="round">  <div class="round-head">    <div>      <div class="round-date">2019년 10월 18일</div>      <div class="round-course">세종에머슨</div>    </div>    <div class="round-score-box">      <div class="round-score">102타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">전일구, 강국일, (지인)</span> 님</div>  <div class="photos g1">    <img src="photos/001.jpg" alt="세종에머슨 2019년 10월 18일" loading="lazy" />  </div></div>
+<div class="round">  <div class="round-head">    <div>      <div class="round-date">2019년 10월 18일</div>      <div class="round-course">세종에머슨</div>    </div>    <div class="round-score-box">      <div class="round-score">102타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">전일구, 강국일, (지인)</span> 님</div>  <div class="photos g1">    <img src="photos/001.jpg" alt="세종에머슨 2019년 10월 18일" loading="lazy" data-course="세종에머슨" data-date="2019년 10월 18일" onclick="openLightbox(this)" />  </div></div>
 <div class="year-divider">
   <div class="year-box">
     <div class="year">2020</div>
     <div class="sub">익숙해지다 · 코로나에도 꾸준히</div>
   </div>
 </div>
-<div class="round">  <div class="round-head">    <div>      <div class="round-date">2020년 3월 20일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">109타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">이영운, 김종왕</span> 님</div>  <div class="photos g1">    <img src="photos/002.jpg" alt="김제스파힐스 2020년 3월 20일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2020년 5월 24일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">95타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">이영운, 나경천, 배철용</span> 님</div>  <div class="photos g2">    <img src="photos/003.jpg" alt="쌍테힐익산 2020년 5월 24일" loading="lazy" />    <img src="photos/004.jpg" alt="쌍테힐익산 2020년 5월 24일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2020년 5월 28일</div>      <div class="round-course">전주cc</div>    </div>    <div class="round-score-box">      <div class="round-score">97타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">나경천, 김종왕, 김대훈</span> 님</div>  <div class="photos g1">    <img src="photos/005.jpg" alt="전주cc 2020년 5월 28일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2020년 10월 26일</div>      <div class="round-course">아리스타</div>    </div>    <div class="round-score-box">      <div class="round-score">98타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">이영운</span> 님</div>  <div class="photos g1">    <img src="photos/006.jpg" alt="아리스타 2020년 10월 26일" loading="lazy" />  </div></div>
+<div class="round">  <div class="round-head">    <div>      <div class="round-date">2020년 3월 20일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">109타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">이영운, 김종왕</span> 님</div>  <div class="photos g1">    <img src="photos/002.jpg" alt="김제스파힐스 2020년 3월 20일" loading="lazy" data-course="김제스파힐스" data-date="2020년 3월 20일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2020년 5월 24일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">95타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">이영운, 나경천, 배철용</span> 님</div>  <div class="photos g2">    <img src="photos/003.jpg" alt="쌍테힐익산 2020년 5월 24일" loading="lazy" data-course="쌍테힐익산" data-date="2020년 5월 24일" onclick="openLightbox(this)" />    <img src="photos/004.jpg" alt="쌍테힐익산 2020년 5월 24일" loading="lazy" data-course="쌍테힐익산" data-date="2020년 5월 24일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2020년 5월 28일</div>      <div class="round-course">전주cc</div>    </div>    <div class="round-score-box">      <div class="round-score">97타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">나경천, 김종왕, 김대훈</span> 님</div>  <div class="photos g1">    <img src="photos/005.jpg" alt="전주cc 2020년 5월 28일" loading="lazy" data-course="전주cc" data-date="2020년 5월 28일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2020년 10월 26일</div>      <div class="round-course">아리스타</div>    </div>    <div class="round-score-box">      <div class="round-score">98타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">이영운</span> 님</div>  <div class="photos g1">    <img src="photos/006.jpg" alt="아리스타 2020년 10월 26일" loading="lazy" data-course="아리스타" data-date="2020년 10월 26일" onclick="openLightbox(this)" />  </div></div>
 <div class="year-divider">
   <div class="year-box">
     <div class="year">2021</div>
     <div class="sub">본격적으로 · 전북 곳곳의 그린</div>
   </div>
 </div>
-<div class="round">  <div class="round-head">    <div>      <div class="round-date">2021년 8월 21일</div>      <div class="round-course">고창cc</div>    </div>    <div class="round-score-box">      <div class="round-score">97타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">이영운</span> 님</div>  <div class="photos g1">    <img src="photos/009.jpg" alt="고창cc 2021년 8월 21일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2021년 8월 31일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">100타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 김대운, 장준석</span> 님</div>  <div class="photos g2">    <img src="photos/010.jpg" alt="김제스파힐스 2021년 8월 31일" loading="lazy" />    <img src="photos/011.jpg" alt="김제스파힐스 2021년 8월 31일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2021년 9월 18일</div>      <div class="round-course">전주상그릴라</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">문영석</span> 님</div>  <div class="photos g1">    <img src="photos/012.jpg" alt="전주상그릴라 2021년 9월 18일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2021년 9월 24일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">97타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 김대훈</span> 님</div>  <div class="photos g1">    <img src="photos/013.jpg" alt="쌍테힐익산 2021년 9월 24일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2021년 10월 9일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">101타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 김광희, 문영석</span> 님</div>  <div class="photos g2">    <img src="photos/014.jpg" alt="쌍테힐익산 2021년 10월 9일" loading="lazy" />    <img src="photos/015.jpg" alt="쌍테힐익산 2021년 10월 9일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2021년 10월 28일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">91타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 김대훈</span> 님</div>  <div class="photos g1">    <img src="photos/016.jpg" alt="쌍테힐익산 2021년 10월 28일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2021년 11월 4일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">105타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">문영석, 남윤길, 김종호</span> 님</div>  <div class="photos g1">    <img src="photos/017.jpg" alt="쌍테힐익산 2021년 11월 4일" loading="lazy" />  </div></div>
+<div class="round">  <div class="round-head">    <div>      <div class="round-date">2021년 8월 21일</div>      <div class="round-course">고창cc</div>    </div>    <div class="round-score-box">      <div class="round-score">97타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">이영운</span> 님</div>  <div class="photos g1">    <img src="photos/009.jpg" alt="고창cc 2021년 8월 21일" loading="lazy" data-course="고창cc" data-date="2021년 8월 21일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2021년 8월 31일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">100타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 김대운, 장준석</span> 님</div>  <div class="photos g2">    <img src="photos/010.jpg" alt="김제스파힐스 2021년 8월 31일" loading="lazy" data-course="김제스파힐스" data-date="2021년 8월 31일" onclick="openLightbox(this)" />    <img src="photos/011.jpg" alt="김제스파힐스 2021년 8월 31일" loading="lazy" data-course="김제스파힐스" data-date="2021년 8월 31일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2021년 9월 18일</div>      <div class="round-course">전주상그릴라</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">문영석</span> 님</div>  <div class="photos g1">    <img src="photos/012.jpg" alt="전주상그릴라 2021년 9월 18일" loading="lazy" data-course="전주상그릴라" data-date="2021년 9월 18일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2021년 9월 24일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">97타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 김대훈</span> 님</div>  <div class="photos g1">    <img src="photos/013.jpg" alt="쌍테힐익산 2021년 9월 24일" loading="lazy" data-course="쌍테힐익산" data-date="2021년 9월 24일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2021년 10월 9일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">101타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 김광희, 문영석</span> 님</div>  <div class="photos g2">    <img src="photos/014.jpg" alt="쌍테힐익산 2021년 10월 9일" loading="lazy" data-course="쌍테힐익산" data-date="2021년 10월 9일" onclick="openLightbox(this)" />    <img src="photos/015.jpg" alt="쌍테힐익산 2021년 10월 9일" loading="lazy" data-course="쌍테힐익산" data-date="2021년 10월 9일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2021년 10월 28일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">91타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 김대훈</span> 님</div>  <div class="photos g1">    <img src="photos/016.jpg" alt="쌍테힐익산 2021년 10월 28일" loading="lazy" data-course="쌍테힐익산" data-date="2021년 10월 28일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2021년 11월 4일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">105타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">문영석, 남윤길, 김종호</span> 님</div>  <div class="photos g1">    <img src="photos/017.jpg" alt="쌍테힐익산 2021년 11월 4일" loading="lazy" data-course="쌍테힐익산" data-date="2021년 11월 4일" onclick="openLightbox(this)" />  </div></div>
 <div class="year-divider">
   <div class="year-box">
     <div class="year">2022</div>
     <div class="sub">전성기 · 한 해 38번의 라운딩</div>
   </div>
 </div>
-<div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 1월 30일</div>      <div class="round-course">아리스타</div>    </div>    <div class="round-score-box">      <div class="round-score">93타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">문영석, 남윤길, 문재원</span> 님</div>  <div class="photos g1">    <img src="photos/018.jpg" alt="아리스타 2022년 1월 30일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 4월 29일</div>      <div class="round-course">석정힐cc</div>    </div>    <div class="round-score-box">      <div class="round-score">97타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">나경천, 김주환, 장준석</span> 님</div>  <div class="photos g1">    <img src="photos/019.jpg" alt="석정힐cc 2022년 4월 29일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 5월 14일</div>      <div class="round-course">석정힐cc</div>    </div>    <div class="round-score-box">      <div class="round-score">98타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">문영석, 김종호</span> 님</div>  <div class="photos g1">    <img src="photos/020.jpg" alt="석정힐cc 2022년 5월 14일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 6월 6일</div>      <div class="round-course">떼제베</div>    </div>    <div class="round-score-box">      <div class="round-score">102타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김광희, 김일중, 이재열</span> 님</div>  <div class="photos g1">    <img src="photos/021.jpg" alt="떼제베 2022년 6월 6일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 9월 3일</div>      <div class="round-course">오라cc</div>    </div>    <div class="round-score-box">      <div class="round-score">101타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 이영운, 남윤길</span> 님</div>  <div class="photos g3">    <img src="photos/022.jpg" alt="오라cc 2022년 9월 3일" loading="lazy" />    <img src="photos/023.jpg" alt="오라cc 2022년 9월 3일" loading="lazy" />    <img src="photos/024.jpg" alt="오라cc 2022년 9월 3일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 9월 16일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">96타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 한종헌, 김광희</span> 님</div>  <div class="photos g1">    <img src="photos/025.jpg" alt="김제스파힐스 2022년 9월 16일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 10월 21일</div>      <div class="round-course">금강</div>    </div>    <div class="round-score-box">      <div class="round-score">100타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">이영운</span> 님</div>  <div class="photos g1">    <img src="photos/031.jpg" alt="금강 2022년 10월 21일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 10월 25일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">100타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">정근양, 박인수</span> 님</div>  <div class="photos g2">    <img src="photos/032.jpg" alt="쌍테힐익산 2022년 10월 25일" loading="lazy" />    <img src="photos/033.jpg" alt="쌍테힐익산 2022년 10월 25일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 11월 1일</div>      <div class="round-course">광주체력단력</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 이재열, 손순태</span> 님</div>  <div class="photos g1">    <img src="photos/034.jpg" alt="광주체력단력 2022년 11월 1일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 11월 4일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">100타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 김대훈</span> 님</div>  <div class="photos g1">    <img src="photos/035.jpg" alt="쌍테힐익산 2022년 11월 4일" loading="lazy" />  </div></div>
+<div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 1월 30일</div>      <div class="round-course">아리스타</div>    </div>    <div class="round-score-box">      <div class="round-score">93타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">문영석, 남윤길, 문재원</span> 님</div>  <div class="photos g1">    <img src="photos/018.jpg" alt="아리스타 2022년 1월 30일" loading="lazy" data-course="아리스타" data-date="2022년 1월 30일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 4월 29일</div>      <div class="round-course">석정힐cc</div>    </div>    <div class="round-score-box">      <div class="round-score">97타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">나경천, 김주환, 장준석</span> 님</div>  <div class="photos g1">    <img src="photos/019.jpg" alt="석정힐cc 2022년 4월 29일" loading="lazy" data-course="석정힐cc" data-date="2022년 4월 29일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 5월 14일</div>      <div class="round-course">석정힐cc</div>    </div>    <div class="round-score-box">      <div class="round-score">98타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">문영석, 김종호</span> 님</div>  <div class="photos g1">    <img src="photos/020.jpg" alt="석정힐cc 2022년 5월 14일" loading="lazy" data-course="석정힐cc" data-date="2022년 5월 14일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 6월 6일</div>      <div class="round-course">떼제베</div>    </div>    <div class="round-score-box">      <div class="round-score">102타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김광희, 김일중, 이재열</span> 님</div>  <div class="photos g1">    <img src="photos/021.jpg" alt="떼제베 2022년 6월 6일" loading="lazy" data-course="떼제베" data-date="2022년 6월 6일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 9월 3일</div>      <div class="round-course">오라cc</div>    </div>    <div class="round-score-box">      <div class="round-score">101타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 이영운, 남윤길</span> 님</div>  <div class="photos g3">    <img src="photos/022.jpg" alt="오라cc 2022년 9월 3일" loading="lazy" data-course="오라cc" data-date="2022년 9월 3일" onclick="openLightbox(this)" />    <img src="photos/023.jpg" alt="오라cc 2022년 9월 3일" loading="lazy" data-course="오라cc" data-date="2022년 9월 3일" onclick="openLightbox(this)" />    <img src="photos/024.jpg" alt="오라cc 2022년 9월 3일" loading="lazy" data-course="오라cc" data-date="2022년 9월 3일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 9월 16일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">96타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 한종헌, 김광희</span> 님</div>  <div class="photos g1">    <img src="photos/025.jpg" alt="김제스파힐스 2022년 9월 16일" loading="lazy" data-course="김제스파힐스" data-date="2022년 9월 16일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 10월 21일</div>      <div class="round-course">금강</div>    </div>    <div class="round-score-box">      <div class="round-score">100타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">이영운</span> 님</div>  <div class="photos g1">    <img src="photos/031.jpg" alt="금강 2022년 10월 21일" loading="lazy" data-course="금강" data-date="2022년 10월 21일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 10월 25일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">100타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">정근양, 박인수</span> 님</div>  <div class="photos g2">    <img src="photos/032.jpg" alt="쌍테힐익산 2022년 10월 25일" loading="lazy" data-course="쌍테힐익산" data-date="2022년 10월 25일" onclick="openLightbox(this)" />    <img src="photos/033.jpg" alt="쌍테힐익산 2022년 10월 25일" loading="lazy" data-course="쌍테힐익산" data-date="2022년 10월 25일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 11월 1일</div>      <div class="round-course">광주체력단력</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 이재열, 손순태</span> 님</div>  <div class="photos g1">    <img src="photos/034.jpg" alt="광주체력단력 2022년 11월 1일" loading="lazy" data-course="광주체력단력" data-date="2022년 11월 1일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2022년 11월 4일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">100타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 김대훈</span> 님</div>  <div class="photos g1">    <img src="photos/035.jpg" alt="쌍테힐익산 2022년 11월 4일" loading="lazy" data-course="쌍테힐익산" data-date="2022년 11월 4일" onclick="openLightbox(this)" />  </div></div>
 <div class="year-divider">
   <div class="year-box">
     <div class="year">2023</div>
     <div class="sub">꾸준함의 해 · 80대가 보이기 시작</div>
   </div>
 </div>
-<div class="round">  <div class="round-head">    <div>      <div class="round-date">2023년 5월 1일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">92타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">문영석</span> 님</div>  <div class="photos g2">    <img src="photos/038.jpg" alt="김제스파힐스 2023년 5월 1일" loading="lazy" />    <img src="photos/039.jpg" alt="김제스파힐스 2023년 5월 1일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2023년 5월 13일</div>      <div class="round-course">고창석정힐</div>    </div>    <div class="round-score-box">      <div class="round-score">96타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 김광희, 이재열</span> 님</div>  <div class="photos g1">    <img src="photos/040.jpg" alt="고창석정힐 2023년 5월 13일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2023년 9월 7일</div>      <div class="round-course">천안상록</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">전일구, (형수), (매제)</span> 님</div>  <div class="photos g2">    <img src="photos/042.jpg" alt="천안상록 2023년 9월 7일" loading="lazy" />    <img src="photos/043.jpg" alt="천안상록 2023년 9월 7일" loading="lazy" />  </div></div><div class="round sub90">  <div class="round-head">    <div>      <div class="round-date">2023년 9월 24일</div>      <div class="round-course">남원드레곤 <span class="badge-best">BEST</span></div>    </div>    <div class="round-score-box">      <div class="round-score best">88타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 문영석, 김학정</span> 님</div>  <div class="photos g1">    <img src="photos/044.jpg" alt="남원드레곤 2023년 9월 24일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2023년 10월 13일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">91타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">나경천, 장준석, 이영준</span> 님</div>  <div class="photos g1">    <img src="photos/045.jpg" alt="김제스파힐스 2023년 10월 13일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2023년 10월 21일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">101타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">문영석</span> 님</div>  <div class="photos g1">    <img src="photos/046.jpg" alt="김제스파힐스 2023년 10월 21일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2023년 10월 27일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">99타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 김대운</span> 님</div>  <div class="photos g1">    <img src="photos/047.jpg" alt="쌍테힐익산 2023년 10월 27일" loading="lazy" />  </div></div>
+<div class="round">  <div class="round-head">    <div>      <div class="round-date">2023년 5월 1일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">92타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">문영석</span> 님</div>  <div class="photos g2">    <img src="photos/038.jpg" alt="김제스파힐스 2023년 5월 1일" loading="lazy" data-course="김제스파힐스" data-date="2023년 5월 1일" onclick="openLightbox(this)" />    <img src="photos/039.jpg" alt="김제스파힐스 2023년 5월 1일" loading="lazy" data-course="김제스파힐스" data-date="2023년 5월 1일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2023년 5월 13일</div>      <div class="round-course">고창석정힐</div>    </div>    <div class="round-score-box">      <div class="round-score">96타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 김광희, 이재열</span> 님</div>  <div class="photos g1">    <img src="photos/040.jpg" alt="고창석정힐 2023년 5월 13일" loading="lazy" data-course="고창석정힐" data-date="2023년 5월 13일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2023년 9월 7일</div>      <div class="round-course">천안상록</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">전일구, (형수), (매제)</span> 님</div>  <div class="photos g2">    <img src="photos/042.jpg" alt="천안상록 2023년 9월 7일" loading="lazy" data-course="천안상록" data-date="2023년 9월 7일" onclick="openLightbox(this)" />    <img src="photos/043.jpg" alt="천안상록 2023년 9월 7일" loading="lazy" data-course="천안상록" data-date="2023년 9월 7일" onclick="openLightbox(this)" />  </div></div><div class="round sub90">  <div class="round-head">    <div>      <div class="round-date">2023년 9월 24일</div>      <div class="round-course">남원드레곤 <span class="badge-best">BEST</span></div>    </div>    <div class="round-score-box">      <div class="round-score best">88타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 문영석, 김학정</span> 님</div>  <div class="photos g1">    <img src="photos/044.jpg" alt="남원드레곤 2023년 9월 24일" loading="lazy" data-course="남원드레곤" data-date="2023년 9월 24일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2023년 10월 13일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">91타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">나경천, 장준석, 이영준</span> 님</div>  <div class="photos g1">    <img src="photos/045.jpg" alt="김제스파힐스 2023년 10월 13일" loading="lazy" data-course="김제스파힐스" data-date="2023년 10월 13일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2023년 10월 21일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">101타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">문영석</span> 님</div>  <div class="photos g1">    <img src="photos/046.jpg" alt="김제스파힐스 2023년 10월 21일" loading="lazy" data-course="김제스파힐스" data-date="2023년 10월 21일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2023년 10월 27일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">99타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 김대운</span> 님</div>  <div class="photos g1">    <img src="photos/047.jpg" alt="쌍테힐익산 2023년 10월 27일" loading="lazy" data-course="쌍테힐익산" data-date="2023년 10월 27일" onclick="openLightbox(this)" />  </div></div>
 <div class="year-divider">
   <div class="year-box">
     <div class="year">2024</div>
     <div class="sub">베스트 86타 · 더라인의 그날</div>
   </div>
 </div>
-<div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 2월 28일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">105타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">배성구, 장준석</span> 님</div>  <div class="photos g1">    <img src="photos/048.jpg" alt="김제스파힐스 2024년 2월 28일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 5월 10일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">97타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 김대운</span> 님</div>  <div class="photos g2">    <img src="photos/049.jpg" alt="쌍테힐익산 2024년 5월 10일" loading="lazy" />    <img src="photos/050.jpg" alt="쌍테힐익산 2024년 5월 10일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 5월 18일</div>      <div class="round-course">고창cc</div>    </div>    <div class="round-score-box">      <div class="round-score">91타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 김광희, 이재열</span> 님</div>  <div class="photos g1">    <img src="photos/051.jpg" alt="고창cc 2024년 5월 18일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 5월 31일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">101타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 나경천, 임방엽</span> 님</div>  <div class="photos g2">    <img src="photos/052.jpg" alt="쌍테힐익산 2024년 5월 31일" loading="lazy" />    <img src="photos/053.jpg" alt="쌍테힐익산 2024년 5월 31일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 6월 29일</div>      <div class="round-course">웅포</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">임채웅, 김학정</span> 님</div>  <div class="photos g1">    <img src="photos/054.jpg" alt="웅포 2024년 6월 29일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 6월 30일</div>      <div class="round-course">웅포</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">임채웅, 김학정</span> 님</div>  <div class="photos g1">    <img src="photos/055.jpg" alt="웅포 2024년 6월 30일" loading="lazy" />  </div></div><div class="round sub90">  <div class="round-head">    <div>      <div class="round-date">2024년 9월 1일</div>      <div class="round-course">더라인 <span class="badge-best">BEST</span></div>    </div>    <div class="round-score-box">      <div class="round-score best">86타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 한종헌, 김광희</span> 님</div>  <div class="photos g1">    <img src="photos/056.jpg" alt="더라인 2024년 9월 1일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 9월 25일</div>      <div class="round-course">파인힐스</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">놀면</span> 님</div>  <div class="photos g1">    <img src="photos/057.jpg" alt="파인힐스 2024년 9월 25일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 10월 2일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">98타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 장준석, 문영석</span> 님</div>  <div class="photos g4">    <img src="photos/058.jpg" alt="쌍테힐익산 2024년 10월 2일" loading="lazy" />    <img src="photos/059.jpg" alt="쌍테힐익산 2024년 10월 2일" loading="lazy" />    <img src="photos/060.jpg" alt="쌍테힐익산 2024년 10월 2일" loading="lazy" />    <img src="photos/061.jpg" alt="쌍테힐익산 2024년 10월 2일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 10월 11일</div>      <div class="round-course">드레곤</div>    </div>    <div class="round-score-box">      <div class="round-score">106타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">배성구, 나경천, 장준석</span> 님</div>  <div class="photos g1">    <img src="photos/062.jpg" alt="드레곤 2024년 10월 11일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 10월 18일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">98타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">박민찬, 김성길, 박길곤</span> 님</div>  <div class="photos g2">    <img src="photos/066.jpg" alt="쌍테힐익산 2024년 10월 18일" loading="lazy" />    <img src="photos/067.jpg" alt="쌍테힐익산 2024년 10월 18일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 11월 15일</div>      <div class="round-course">전주쌍글릴라</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">이영운</span> 님</div>  <div class="photos g1">    <img src="photos/068.jpg" alt="전주쌍글릴라 2024년 11월 15일" loading="lazy" />  </div></div>
+<div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 2월 28일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">105타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">배성구, 장준석</span> 님</div>  <div class="photos g1">    <img src="photos/048.jpg" alt="김제스파힐스 2024년 2월 28일" loading="lazy" data-course="김제스파힐스" data-date="2024년 2월 28일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 5월 10일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">97타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 김대운</span> 님</div>  <div class="photos g2">    <img src="photos/049.jpg" alt="쌍테힐익산 2024년 5월 10일" loading="lazy" data-course="쌍테힐익산" data-date="2024년 5월 10일" onclick="openLightbox(this)" />    <img src="photos/050.jpg" alt="쌍테힐익산 2024년 5월 10일" loading="lazy" data-course="쌍테힐익산" data-date="2024년 5월 10일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 5월 18일</div>      <div class="round-course">고창cc</div>    </div>    <div class="round-score-box">      <div class="round-score">91타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 김광희, 이재열</span> 님</div>  <div class="photos g1">    <img src="photos/051.jpg" alt="고창cc 2024년 5월 18일" loading="lazy" data-course="고창cc" data-date="2024년 5월 18일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 5월 31일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">101타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 나경천, 임방엽</span> 님</div>  <div class="photos g2">    <img src="photos/052.jpg" alt="쌍테힐익산 2024년 5월 31일" loading="lazy" data-course="쌍테힐익산" data-date="2024년 5월 31일" onclick="openLightbox(this)" />    <img src="photos/053.jpg" alt="쌍테힐익산 2024년 5월 31일" loading="lazy" data-course="쌍테힐익산" data-date="2024년 5월 31일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 6월 29일</div>      <div class="round-course">웅포</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">임채웅, 김학정</span> 님</div>  <div class="photos g1">    <img src="photos/054.jpg" alt="웅포 2024년 6월 29일" loading="lazy" data-course="웅포" data-date="2024년 6월 29일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 6월 30일</div>      <div class="round-course">웅포</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">임채웅, 김학정</span> 님</div>  <div class="photos g1">    <img src="photos/055.jpg" alt="웅포 2024년 6월 30일" loading="lazy" data-course="웅포" data-date="2024년 6월 30일" onclick="openLightbox(this)" />  </div></div><div class="round sub90">  <div class="round-head">    <div>      <div class="round-date">2024년 9월 1일</div>      <div class="round-course">더라인 <span class="badge-best">BEST</span></div>    </div>    <div class="round-score-box">      <div class="round-score best">86타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 한종헌, 김광희</span> 님</div>  <div class="photos g1">    <img src="photos/056.jpg" alt="더라인 2024년 9월 1일" loading="lazy" data-course="더라인" data-date="2024년 9월 1일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 9월 25일</div>      <div class="round-course">파인힐스</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">놀면</span> 님</div>  <div class="photos g1">    <img src="photos/057.jpg" alt="파인힐스 2024년 9월 25일" loading="lazy" data-course="파인힐스" data-date="2024년 9월 25일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 10월 2일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">98타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 장준석, 문영석</span> 님</div>  <div class="photos g4">    <img src="photos/058.jpg" alt="쌍테힐익산 2024년 10월 2일" loading="lazy" data-course="쌍테힐익산" data-date="2024년 10월 2일" onclick="openLightbox(this)" />    <img src="photos/059.jpg" alt="쌍테힐익산 2024년 10월 2일" loading="lazy" data-course="쌍테힐익산" data-date="2024년 10월 2일" onclick="openLightbox(this)" />    <img src="photos/060.jpg" alt="쌍테힐익산 2024년 10월 2일" loading="lazy" data-course="쌍테힐익산" data-date="2024년 10월 2일" onclick="openLightbox(this)" />    <img src="photos/061.jpg" alt="쌍테힐익산 2024년 10월 2일" loading="lazy" data-course="쌍테힐익산" data-date="2024년 10월 2일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 10월 11일</div>      <div class="round-course">드레곤</div>    </div>    <div class="round-score-box">      <div class="round-score">106타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">배성구, 나경천, 장준석</span> 님</div>  <div class="photos g1">    <img src="photos/062.jpg" alt="드레곤 2024년 10월 11일" loading="lazy" data-course="드레곤" data-date="2024년 10월 11일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 10월 18일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">98타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">박민찬, 김성길, 박길곤</span> 님</div>  <div class="photos g2">    <img src="photos/066.jpg" alt="쌍테힐익산 2024년 10월 18일" loading="lazy" data-course="쌍테힐익산" data-date="2024년 10월 18일" onclick="openLightbox(this)" />    <img src="photos/067.jpg" alt="쌍테힐익산 2024년 10월 18일" loading="lazy" data-course="쌍테힐익산" data-date="2024년 10월 18일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2024년 11월 15일</div>      <div class="round-course">전주쌍글릴라</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">이영운</span> 님</div>  <div class="photos g1">    <img src="photos/068.jpg" alt="전주쌍글릴라 2024년 11월 15일" loading="lazy" data-course="전주쌍글릴라" data-date="2024년 11월 15일" onclick="openLightbox(this)" />  </div></div>
 <div class="year-divider">
   <div class="year-box">
     <div class="year">2025</div>
     <div class="sub">새로운 시작 · Qi35 MAX와 함께</div>
   </div>
 </div>
-<div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 4월 11일</div>      <div class="round-course">내장산cc</div>    </div>    <div class="round-score-box">      <div class="round-score">95타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 배성구, 문영석</span> 님</div>  <div class="photos g2">    <img src="photos/069.jpg" alt="내장산cc 2025년 4월 11일" loading="lazy" />    <img src="photos/070.jpg" alt="내장산cc 2025년 4월 11일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 6월 5일</div>      <div class="round-course">쌍테힐익산</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 김대운</span> 님</div>  <div class="photos g1">    <img src="photos/071.jpg" alt="쌍테힐익산 2025년 6월 5일" loading="lazy" />  </div></div><div class="round sub90">  <div class="round-head">    <div>      <div class="round-date">2025년 6월 17일</div>      <div class="round-course">무주 <span class="badge-best">BEST</span></div>    </div>    <div class="round-score-box">      <div class="round-score best">88타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">박민찬, 오태양, 이석주, 박길곤</span> 님</div>  <div class="photos g2">    <img src="photos/072.jpg" alt="무주 2025년 6월 17일" loading="lazy" />    <img src="photos/073.jpg" alt="무주 2025년 6월 17일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 8월 15일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">101타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 김종왕, 이영운</span> 님</div>  <div class="photos g1">    <img src="photos/074.jpg" alt="쌍테힐익산 2025년 8월 15일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 8월 28일</div>      <div class="round-course">전주쌍글릴라</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">이영운, 장준석, 놀면</span> 님</div>  <div class="photos g1">    <img src="photos/075.jpg" alt="전주쌍글릴라 2025년 8월 28일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 9월 19일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">92타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 유병호, 김광현</span> 님</div>  <div class="photos g1">    <img src="photos/076.jpg" alt="김제스파힐스 2025년 9월 19일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 10월 11일</div>      <div class="round-course">무주</div>    </div>    <div class="round-score-box">      <div class="round-score">98타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">박민찬, 오태양, 이석주, 박길곤, 임성식</span> 님</div>  <div class="photos g1">    <img src="photos/077.jpg" alt="무주 2025년 10월 11일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 10월 17일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">102타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 문영석, 정진채</span> 님</div>  <div class="photos g1">    <img src="photos/078.jpg" alt="쌍테힐익산 2025년 10월 17일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 10월 25일</div>      <div class="round-course">웅포</div>    </div>    <div class="round-score-box">      <div class="round-score">95타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">전일구, 강국일, 김광희</span> 님</div>  <div class="photos g1">    <img src="photos/079.jpg" alt="웅포 2025년 10월 25일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 11월 7일</div>      <div class="round-course">웨스트오션</div>    </div>    <div class="round-score-box">      <div class="round-score">97타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">문영석</span> 님</div>  <div class="photos g1">    <img src="photos/080.jpg" alt="웨스트오션 2025년 11월 7일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 11월 8일</div>      <div class="round-course">웨스트오션</div>    </div>    <div class="round-score-box">      <div class="round-score">94타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕</span> 님</div>  <div class="photos g2">    <img src="photos/081.jpg" alt="웨스트오션 2025년 11월 8일" loading="lazy" />    <img src="photos/082.jpg" alt="웨스트오션 2025년 11월 8일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 11월 14일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">96타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">배철용, 채수항</span> 님</div>  <div class="photos g5plus">    <img src="photos/084.jpg" alt="쌍테힐익산 2025년 11월 14일" loading="lazy" />    <img src="photos/085.jpg" alt="쌍테힐익산 2025년 11월 14일" loading="lazy" />    <img src="photos/086.jpg" alt="쌍테힐익산 2025년 11월 14일" loading="lazy" />    <img src="photos/087.jpg" alt="쌍테힐익산 2025년 11월 14일" loading="lazy" />    <img src="photos/088.jpg" alt="쌍테힐익산 2025년 11월 14일" loading="lazy" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 11월 21일</div>      <div class="round-course">금산에던베러</div>    </div>    <div class="round-score-box">      <div class="round-score">98타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">전일구</span> 님</div>  <div class="photos g3">    <img src="photos/089.jpg" alt="금산에던베러 2025년 11월 21일" loading="lazy" />    <img src="photos/090.jpg" alt="금산에던베러 2025년 11월 21일" loading="lazy" />    <img src="photos/091.jpg" alt="금산에던베러 2025년 11월 21일" loading="lazy" />  </div></div>
+<div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 4월 11일</div>      <div class="round-course">내장산cc</div>    </div>    <div class="round-score-box">      <div class="round-score">95타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 배성구, 문영석</span> 님</div>  <div class="photos g2">    <img src="photos/069.jpg" alt="내장산cc 2025년 4월 11일" loading="lazy" data-course="내장산cc" data-date="2025년 4월 11일" onclick="openLightbox(this)" />    <img src="photos/070.jpg" alt="내장산cc 2025년 4월 11일" loading="lazy" data-course="내장산cc" data-date="2025년 4월 11일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 6월 5일</div>      <div class="round-course">쌍테힐익산</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 김대운</span> 님</div>  <div class="photos g1">    <img src="photos/071.jpg" alt="쌍테힐익산 2025년 6월 5일" loading="lazy" data-course="쌍테힐익산" data-date="2025년 6월 5일" onclick="openLightbox(this)" />  </div></div><div class="round sub90">  <div class="round-head">    <div>      <div class="round-date">2025년 6월 17일</div>      <div class="round-course">무주 <span class="badge-best">BEST</span></div>    </div>    <div class="round-score-box">      <div class="round-score best">88타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">박민찬, 오태양, 이석주, 박길곤</span> 님</div>  <div class="photos g2">    <img src="photos/072.jpg" alt="무주 2025년 6월 17일" loading="lazy" data-course="무주" data-date="2025년 6월 17일" onclick="openLightbox(this)" />    <img src="photos/073.jpg" alt="무주 2025년 6월 17일" loading="lazy" data-course="무주" data-date="2025년 6월 17일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 8월 15일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">101타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 김종왕, 이영운</span> 님</div>  <div class="photos g1">    <img src="photos/074.jpg" alt="쌍테힐익산 2025년 8월 15일" loading="lazy" data-course="쌍테힐익산" data-date="2025년 8월 15일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 8월 28일</div>      <div class="round-course">전주쌍글릴라</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">이영운, 장준석, 놀면</span> 님</div>  <div class="photos g1">    <img src="photos/075.jpg" alt="전주쌍글릴라 2025년 8월 28일" loading="lazy" data-course="전주쌍글릴라" data-date="2025년 8월 28일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 9월 19일</div>      <div class="round-course">김제스파힐스</div>    </div>    <div class="round-score-box">      <div class="round-score">92타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">강국일, 유병호, 김광현</span> 님</div>  <div class="photos g1">    <img src="photos/076.jpg" alt="김제스파힐스 2025년 9월 19일" loading="lazy" data-course="김제스파힐스" data-date="2025년 9월 19일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 10월 11일</div>      <div class="round-course">무주</div>    </div>    <div class="round-score-box">      <div class="round-score">98타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">박민찬, 오태양, 이석주, 박길곤, 임성식</span> 님</div>  <div class="photos g1">    <img src="photos/077.jpg" alt="무주 2025년 10월 11일" loading="lazy" data-course="무주" data-date="2025년 10월 11일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 10월 17일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">102타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 문영석, 정진채</span> 님</div>  <div class="photos g1">    <img src="photos/078.jpg" alt="쌍테힐익산 2025년 10월 17일" loading="lazy" data-course="쌍테힐익산" data-date="2025년 10월 17일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 10월 25일</div>      <div class="round-course">웅포</div>    </div>    <div class="round-score-box">      <div class="round-score">95타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">전일구, 강국일, 김광희</span> 님</div>  <div class="photos g1">    <img src="photos/079.jpg" alt="웅포 2025년 10월 25일" loading="lazy" data-course="웅포" data-date="2025년 10월 25일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 11월 7일</div>      <div class="round-course">웨스트오션</div>    </div>    <div class="round-score-box">      <div class="round-score">97타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">문영석</span> 님</div>  <div class="photos g1">    <img src="photos/080.jpg" alt="웨스트오션 2025년 11월 7일" loading="lazy" data-course="웨스트오션" data-date="2025년 11월 7일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 11월 8일</div>      <div class="round-course">웨스트오션</div>    </div>    <div class="round-score-box">      <div class="round-score">94타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕</span> 님</div>  <div class="photos g2">    <img src="photos/081.jpg" alt="웨스트오션 2025년 11월 8일" loading="lazy" data-course="웨스트오션" data-date="2025년 11월 8일" onclick="openLightbox(this)" />    <img src="photos/082.jpg" alt="웨스트오션 2025년 11월 8일" loading="lazy" data-course="웨스트오션" data-date="2025년 11월 8일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 11월 14일</div>      <div class="round-course">쌍테힐익산</div>    </div>    <div class="round-score-box">      <div class="round-score">96타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">배철용, 채수항</span> 님</div>  <div class="photos g5plus">    <img src="photos/084.jpg" alt="쌍테힐익산 2025년 11월 14일" loading="lazy" data-course="쌍테힐익산" data-date="2025년 11월 14일" onclick="openLightbox(this)" />    <img src="photos/085.jpg" alt="쌍테힐익산 2025년 11월 14일" loading="lazy" data-course="쌍테힐익산" data-date="2025년 11월 14일" onclick="openLightbox(this)" />    <img src="photos/086.jpg" alt="쌍테힐익산 2025년 11월 14일" loading="lazy" data-course="쌍테힐익산" data-date="2025년 11월 14일" onclick="openLightbox(this)" />    <img src="photos/087.jpg" alt="쌍테힐익산 2025년 11월 14일" loading="lazy" data-course="쌍테힐익산" data-date="2025년 11월 14일" onclick="openLightbox(this)" />    <img src="photos/088.jpg" alt="쌍테힐익산 2025년 11월 14일" loading="lazy" data-course="쌍테힐익산" data-date="2025년 11월 14일" onclick="openLightbox(this)" />  </div></div><div class="round">  <div class="round-head">    <div>      <div class="round-date">2025년 11월 21일</div>      <div class="round-course">금산에던베러</div>    </div>    <div class="round-score-box">      <div class="round-score">98타</div>      <div class="round-score-label">SCORE</div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">전일구</span> 님</div>  <div class="photos g3">    <img src="photos/089.jpg" alt="금산에던베러 2025년 11월 21일" loading="lazy" data-course="금산에던베러" data-date="2025년 11월 21일" onclick="openLightbox(this)" />    <img src="photos/090.jpg" alt="금산에던베러 2025년 11월 21일" loading="lazy" data-course="금산에던베러" data-date="2025년 11월 21일" onclick="openLightbox(this)" />    <img src="photos/091.jpg" alt="금산에던베러 2025년 11월 21일" loading="lazy" data-course="금산에던베러" data-date="2025년 11월 21일" onclick="openLightbox(this)" />  </div></div>
 <div class="year-divider">
   <div class="year-box">
     <div class="year">2026</div>
     <div class="sub">새로운 시즌 · 오늘도 이어지는 라운드</div>
   </div>
 </div>
-<div class="round">  <div class="round-head">    <div>      <div class="round-date">2026년 4월 24일</div>      <div class="round-course">선운사 CC <span class="badge-new">TODAY</span></div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 이영운, 배성구</span> 님</div>  <div class="photos g2">    <img src="photos/092.jpg" alt="선운사 CC 2026년 4월 24일" loading="lazy" />    <img src="photos/093.jpg" alt="선운사 CC 2026년 4월 24일" loading="lazy" />  </div>  <div class="video-wrap">    <video controls playsinline preload="metadata">      <source src="video/seonunsa.mp4" type="video/mp4">      브라우저가 동영상을 지원하지 않습니다.    </video>    <div class="video-caption">📹 선운사 CC · 2026.04.24</div>  </div></div>
+<div class="round">  <div class="round-head">    <div>      <div class="round-date">2026년 4월 24일</div>      <div class="round-course">선운사 CC <span class="badge-new">TODAY</span></div>    </div>  </div>  <div class="partners"><span class="label">함께</span><span class="names">김종왕, 이영운, 배성구</span> 님</div>  <div class="photos g2">    <img src="photos/092.jpg" alt="선운사 CC 2026년 4월 24일" loading="lazy" data-course="선운사 CC" data-date="2026년 4월 24일" onclick="openLightbox(this)" />    <img src="photos/093.jpg" alt="선운사 CC 2026년 4월 24일" loading="lazy" data-course="선운사 CC" data-date="2026년 4월 24일" onclick="openLightbox(this)" />  </div>  <div class="video-wrap">    <video controls playsinline preload="metadata">      <source src="video/seonunsa.mp4" type="video/mp4">      브라우저가 동영상을 지원하지 않습니다.    </video>    <div class="video-caption">📹 선운사 CC · 2026.04.24</div>  </div></div>
 <div class="year-divider">
   <div class="year-box">
     <div class="year">&#9671;</div>
@@ -420,7 +543,7 @@
     </div>
   </div>
   <div class="photos g5plus">
-    <img src="photos/000.jpg" alt="2019-08-04" loading="lazy" />    <img src="photos/007.jpg" alt="2020-11-15" loading="lazy" />    <img src="photos/008.jpg" alt="2021-05-22" loading="lazy" />    <img src="photos/026.jpg" alt="2022-10-16" loading="lazy" />    <img src="photos/027.jpg" alt="2022-10-16" loading="lazy" />    <img src="photos/028.jpg" alt="2022-10-16" loading="lazy" />    <img src="photos/029.jpg" alt="2022-10-16" loading="lazy" />    <img src="photos/030.jpg" alt="2022-10-16" loading="lazy" />    <img src="photos/036.jpg" alt="2023-01-15" loading="lazy" />    <img src="photos/037.jpg" alt="2023-01-15" loading="lazy" />    <img src="photos/041.jpg" alt="2023-07-03" loading="lazy" />    <img src="photos/063.jpg" alt="2024-10-13" loading="lazy" />    <img src="photos/064.jpg" alt="2024-10-13" loading="lazy" />    <img src="photos/065.jpg" alt="2024-10-13" loading="lazy" />    <img src="photos/083.jpg" alt="2025-11-12" loading="lazy" />
+    <img src="photos/000.jpg" alt="2019-08-04" loading="lazy" data-course="필드 밖의 순간" data-date="2019-08-04" onclick="openLightbox(this)" />    <img src="photos/007.jpg" alt="2020-11-15" loading="lazy" data-course="필드 밖의 순간" data-date="2020-11-15" onclick="openLightbox(this)" />    <img src="photos/008.jpg" alt="2021-05-22" loading="lazy" data-course="필드 밖의 순간" data-date="2021-05-22" onclick="openLightbox(this)" />    <img src="photos/026.jpg" alt="2022-10-16" loading="lazy" data-course="필드 밖의 순간" data-date="2022-10-16" onclick="openLightbox(this)" />    <img src="photos/027.jpg" alt="2022-10-16" loading="lazy" data-course="필드 밖의 순간" data-date="2022-10-16" onclick="openLightbox(this)" />    <img src="photos/028.jpg" alt="2022-10-16" loading="lazy" data-course="필드 밖의 순간" data-date="2022-10-16" onclick="openLightbox(this)" />    <img src="photos/029.jpg" alt="2022-10-16" loading="lazy" data-course="필드 밖의 순간" data-date="2022-10-16" onclick="openLightbox(this)" />    <img src="photos/030.jpg" alt="2022-10-16" loading="lazy" data-course="필드 밖의 순간" data-date="2022-10-16" onclick="openLightbox(this)" />    <img src="photos/036.jpg" alt="2023-01-15" loading="lazy" data-course="필드 밖의 순간" data-date="2023-01-15" onclick="openLightbox(this)" />    <img src="photos/037.jpg" alt="2023-01-15" loading="lazy" data-course="필드 밖의 순간" data-date="2023-01-15" onclick="openLightbox(this)" />    <img src="photos/041.jpg" alt="2023-07-03" loading="lazy" data-course="필드 밖의 순간" data-date="2023-07-03" onclick="openLightbox(this)" />    <img src="photos/063.jpg" alt="2024-10-13" loading="lazy" data-course="필드 밖의 순간" data-date="2024-10-13" onclick="openLightbox(this)" />    <img src="photos/064.jpg" alt="2024-10-13" loading="lazy" data-course="필드 밖의 순간" data-date="2024-10-13" onclick="openLightbox(this)" />    <img src="photos/065.jpg" alt="2024-10-13" loading="lazy" data-course="필드 밖의 순간" data-date="2024-10-13" onclick="openLightbox(this)" />    <img src="photos/083.jpg" alt="2025-11-12" loading="lazy" data-course="필드 밖의 순간" data-date="2025-11-12" onclick="openLightbox(this)" />
   </div>
 </div>
 
@@ -457,6 +580,17 @@
 
 </div>
 
+<!-- 라이트박스 (사진 확대 보기) -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="사진 확대 보기">
+  <button class="lightbox-close" id="lb-close" aria-label="닫기">×</button>
+  <button class="lightbox-nav prev" id="lb-prev" aria-label="이전 사진">‹</button>
+  <button class="lightbox-nav next" id="lb-next" aria-label="다음 사진">›</button>
+  <div class="lightbox-img-wrap" id="lb-wrap">
+    <img class="lightbox-img" id="lb-img" alt="" />
+  </div>
+  <div class="lightbox-info" id="lb-info"></div>
+</div>
+
 <!-- BGM 오디오 -->
 <audio id="bgm" loop preload="auto">
   <source src="audio/bgm.mp3" type="audio/mpeg">
@@ -483,6 +617,237 @@
 </div>
 
 <script>
+// ==========================
+// 라이트박스 (사진 확대 보기)
+// ==========================
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lb-img');
+const lbInfo = document.getElementById('lb-info');
+const lbClose = document.getElementById('lb-close');
+const lbPrev = document.getElementById('lb-prev');
+const lbNext = document.getElementById('lb-next');
+const lbWrap = document.getElementById('lb-wrap');
+
+let currentImages = []; // 현재 그룹의 이미지 리스트
+let currentIndex = 0;
+let zoomLevel = 1;
+let translateX = 0, translateY = 0;
+let isDragging = false;
+let startX = 0, startY = 0;
+let startTransX = 0, startTransY = 0;
+
+function openLightbox(imgEl) {
+  // 같은 photos 그룹 내 이미지들을 수집
+  const parent = imgEl.closest('.photos');
+  if (parent) {
+    currentImages = Array.from(parent.querySelectorAll('img'));
+    currentIndex = currentImages.indexOf(imgEl);
+  } else {
+    currentImages = [imgEl];
+    currentIndex = 0;
+  }
+  showImage(currentIndex);
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function showImage(idx) {
+  if (idx < 0 || idx >= currentImages.length) return;
+  currentIndex = idx;
+  const src = currentImages[idx].src;
+  const course = currentImages[idx].dataset.course || '';
+  const date = currentImages[idx].dataset.date || '';
+  
+  resetZoom();
+  lbImg.style.opacity = '0';
+  lbImg.src = src;
+  lbImg.onload = () => { lbImg.style.opacity = '1'; };
+  
+  // 정보 표시
+  let infoText = '';
+  if (currentImages.length > 1) {
+    infoText = `<span class="lb-counter">${idx + 1} / ${currentImages.length}</span>`;
+  }
+  if (date && course) {
+    infoText += `${date} · ${course}`;
+  } else if (date) {
+    infoText += date;
+  }
+  lbInfo.innerHTML = infoText;
+  
+  // 네비게이션 버튼 활성/비활성
+  lbPrev.disabled = (idx === 0);
+  lbNext.disabled = (idx === currentImages.length - 1);
+  // 사진 1장이면 네비 숨기기
+  if (currentImages.length <= 1) {
+    lbPrev.style.display = 'none';
+    lbNext.style.display = 'none';
+  } else {
+    lbPrev.style.display = '';
+    lbNext.style.display = '';
+  }
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+  resetZoom();
+  lbImg.src = '';
+}
+
+function resetZoom() {
+  zoomLevel = 1;
+  translateX = 0;
+  translateY = 0;
+  lbImg.style.transform = '';
+  lbImg.classList.remove('zoomed', 'dragging');
+}
+
+function applyTransform() {
+  lbImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${zoomLevel})`;
+}
+
+// 사진 클릭 시 더블 줌
+lbImg.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (zoomLevel === 1) {
+    zoomLevel = 2;
+    lbImg.classList.add('zoomed');
+    applyTransform();
+  } else {
+    resetZoom();
+  }
+});
+
+// 드래그 (줌 상태에서)
+lbImg.addEventListener('mousedown', (e) => {
+  if (zoomLevel === 1) return;
+  e.preventDefault();
+  isDragging = true;
+  startX = e.clientX;
+  startY = e.clientY;
+  startTransX = translateX;
+  startTransY = translateY;
+  lbImg.classList.add('dragging');
+});
+document.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+  translateX = startTransX + (e.clientX - startX);
+  translateY = startTransY + (e.clientY - startY);
+  applyTransform();
+});
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+  lbImg.classList.remove('dragging');
+});
+
+// 닫기 버튼
+lbClose.addEventListener('click', closeLightbox);
+
+// 배경 클릭 시 닫기
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox || e.target === lbWrap) {
+    closeLightbox();
+  }
+});
+
+// 이전/다음
+lbPrev.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (currentIndex > 0) showImage(currentIndex - 1);
+});
+lbNext.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (currentIndex < currentImages.length - 1) showImage(currentIndex + 1);
+});
+
+// 키보드
+document.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  else if (e.key === 'ArrowLeft' && currentIndex > 0) showImage(currentIndex - 1);
+  else if (e.key === 'ArrowRight' && currentIndex < currentImages.length - 1) showImage(currentIndex + 1);
+});
+
+// 모바일 스와이프 (좌우)
+let touchStartX = 0, touchStartY = 0, touchStartDist = 0;
+let lastTouchTime = 0;
+let initialZoom = 1;
+
+lbImg.addEventListener('touchstart', (e) => {
+  if (e.touches.length === 1) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    if (zoomLevel > 1) {
+      isDragging = true;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      startTransX = translateX;
+      startTransY = translateY;
+    }
+  } else if (e.touches.length === 2) {
+    // 핀치 줌 시작
+    const dx = e.touches[0].clientX - e.touches[1].clientX;
+    const dy = e.touches[0].clientY - e.touches[1].clientY;
+    touchStartDist = Math.sqrt(dx * dx + dy * dy);
+    initialZoom = zoomLevel;
+  }
+}, { passive: true });
+
+lbImg.addEventListener('touchmove', (e) => {
+  if (e.touches.length === 1 && isDragging && zoomLevel > 1) {
+    e.preventDefault();
+    translateX = startTransX + (e.touches[0].clientX - startX);
+    translateY = startTransY + (e.touches[0].clientY - startY);
+    applyTransform();
+  } else if (e.touches.length === 2) {
+    e.preventDefault();
+    const dx = e.touches[0].clientX - e.touches[1].clientX;
+    const dy = e.touches[0].clientY - e.touches[1].clientY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    zoomLevel = Math.max(1, Math.min(4, initialZoom * (dist / touchStartDist)));
+    if (zoomLevel > 1) lbImg.classList.add('zoomed');
+    else { resetZoom(); return; }
+    applyTransform();
+  }
+}, { passive: false });
+
+lbImg.addEventListener('touchend', (e) => {
+  if (zoomLevel > 1) {
+    isDragging = false;
+    return;
+  }
+  // 스와이프 감지 (줌 상태 아닐 때만)
+  if (e.changedTouches.length > 0) {
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const dx = touchEndX - touchStartX;
+    const dy = touchEndY - touchStartY;
+    
+    // 좌우 스와이프 (수직 이동보다 큰 경우만)
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx > 0 && currentIndex > 0) showImage(currentIndex - 1);
+      else if (dx < 0 && currentIndex < currentImages.length - 1) showImage(currentIndex + 1);
+    }
+  }
+  
+  // 더블탭 줌
+  const now = Date.now();
+  if (now - lastTouchTime < 300) {
+    if (zoomLevel === 1) {
+      zoomLevel = 2;
+      lbImg.classList.add('zoomed');
+      applyTransform();
+    } else {
+      resetZoom();
+    }
+  }
+  lastTouchTime = now;
+});
+
+// ==========================
+// BGM 플레이어
+// ==========================
 const bgm = document.getElementById('bgm');
 const player = document.getElementById('bgm-player');
 const overlay = document.getElementById('bgm-overlay');
